@@ -10,12 +10,14 @@ import (
 )
 
 type BraceletHandler struct {
-	service *services.BraceletService
+	service     *services.BraceletService
+	cardService *services.CardService
 }
 
 func NewBraceletHandler() *BraceletHandler {
 	return &BraceletHandler{
-		service: services.NewBraceletService(),
+		service:     services.NewBraceletService(),
+		cardService: services.NewCardService(),
 	}
 }
 
@@ -126,4 +128,35 @@ func (h *BraceletHandler) DeleteBracelet(c *gin.Context) {
 		Message: "删除成功",
 		Data:    nil,
 	})
+}
+
+func (h *BraceletHandler) DownloadCard(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.ParseUint(idStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, ApiResponse{
+			Code:    400,
+			Message: "无效的ID",
+			Data:    nil,
+		})
+		return
+	}
+
+	bracelet, err := h.service.GetBraceletByID(id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, ApiResponse{
+			Code:    404,
+			Message: "记录不存在",
+			Data:    nil,
+		})
+		return
+	}
+
+	cardContent, fileName := h.cardService.GeneratePrintCard(bracelet)
+
+	c.Header("Content-Type", "text/plain; charset=utf-8")
+	c.Header("Content-Disposition", "attachment; filename=\""+fileName+"\"")
+	c.Header("Content-Transfer-Encoding", "binary")
+
+	c.String(http.StatusOK, cardContent)
 }

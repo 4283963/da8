@@ -33,6 +33,7 @@ func SetupRouter() *gin.Engine {
 			bracelets.GET("", braceletHandler.GetAllBracelets)
 			bracelets.GET("/:id", braceletHandler.GetBracelet)
 			bracelets.DELETE("/:id", braceletHandler.DeleteBracelet)
+			bracelets.GET("/:id/card", braceletHandler.DownloadCard)
 		}
 	}
 

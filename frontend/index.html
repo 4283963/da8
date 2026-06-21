@@ -52,8 +52,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="beadCount">珠子颗数</label>
-                        <input type="number" id="beadCount" name="beadCount" min="1" value="17" required>
+                        <label for="beadCount">珠子颗数 <span class="optional-tag">(选填)</span></label>
+                        <input type="number" id="beadCount" name="beadCount" min="1" placeholder="不填则不参与颗数扣分">
                         <small class="hint">标准颗数为 17 颗，偏差过大会扣分</small>
                     </div>
 
@@ -101,6 +101,18 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div id="detailPanel" class="detail-panel hidden">
+                    <div class="detail-header">
+                        <h3>玉石详细数据</h3>
+                        <button id="closeDetailBtn" class="btn-secondary btn-small">关闭</button>
+                    </div>
+                    <div id="detailContent" class="detail-content">
+                    </div>
+                    <button id="generateCardBtn" class="btn-generate-card">
+                        🖨️ 生成打印质地卡片
+                    </button>
                 </div>
             </section>
         </div>
