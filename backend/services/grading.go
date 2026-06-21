@@ -23,13 +23,15 @@ func NewGradingService() *GradingService {
 	return &GradingService{}
 }
 
-func (s *GradingService) CalculateGrade(translucency, fineness float64, beadCount int) *GradeResult {
+func (s *GradingService) CalculateGrade(translucency, fineness float64, beadCount *int) *GradeResult {
 	baseScore := translucency*TranslucencyWeight + fineness*FinenessWeight
 
 	beadPenalty := 0.0
-	if math.Abs(float64(beadCount-StandardBeadCount)) > BeadCountTolerance {
-		excess := math.Abs(float64(beadCount-StandardBeadCount)) - BeadCountTolerance
-		beadPenalty = excess * 1.0
+	if beadCount != nil {
+		if math.Abs(float64(*beadCount-StandardBeadCount)) > BeadCountTolerance {
+			excess := math.Abs(float64(*beadCount-StandardBeadCount)) - BeadCountTolerance
+			beadPenalty = excess * 1.0
+		}
 	}
 
 	finalScore := baseScore - beadPenalty
