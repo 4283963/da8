@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>和田玉手串质地等级评定系统</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>和田玉手串质地等级评定系统</h1>
+            <p class="subtitle">切米蓝 · 墨碧 等材质质地参数录入与智能评级</p>
+        </header>
+
+        <div class="main-content">
+            <section class="form-section">
+                <h2>质地参数录入</h2>
+                <form id="braceletForm">
+                    <div class="form-group">
+                        <label for="name">手串编号/名称</label>
+                        <input type="text" id="name" name="name" placeholder="例如：QML-001" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="material">材质</label>
+                        <select id="material" name="material" required>
+                            <option value="">请选择材质</option>
+                            <option value="切米蓝">切米蓝</option>
+                            <option value="墨碧">墨碧</option>
+                            <option value="白玉">白玉</option>
+                            <option value="青玉">青玉</option>
+                            <option value="碧玉">碧玉</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="translucency">透光度 (0-100)</label>
+                        <input type="number" id="translucency" name="translucency" min="0" max="100" step="0.01" placeholder="数值越高越好" required>
+                        <div class="slider-container">
+                            <input type="range" id="translucencyRange" min="0" max="100" step="1" value="50">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fineness">细度 (0-100)</label>
+                        <input type="number" id="fineness" name="fineness" min="0" max="100" step="0.01" placeholder="数值越高越好" required>
+                        <div class="slider-container">
+                            <input type="range" id="finenessRange" min="0" max="100" step="1" value="50">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="beadCount">珠子颗数</label>
+                        <input type="number" id="beadCount" name="beadCount" min="1" value="17" required>
+                        <small class="hint">标准颗数为 17 颗，偏差过大会扣分</small>
+                    </div>
+
+                    <button type="submit" class="btn-primary">提交评定</button>
+                </form>
+
+                <div id="resultCard" class="result-card hidden">
+                    <h3>评定结果</h3>
+                    <div class="result-content">
+                        <div class="score-display">
+                            <span class="score-label">综合评分</span>
+                            <span id="resultScore" class="score-value">--</span>
+                        </div>
+                        <div class="grade-display">
+                            <span class="grade-label">等级</span>
+                            <span id="resultGrade" class="grade-badge">--</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="list-section">
+                <div class="list-header">
+                    <h2>已评定记录</h2>
+                    <button id="refreshBtn" class="btn-secondary">刷新</button>
+                </div>
+                <div class="table-container">
+                    <table id="braceletTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>编号</th>
+                                <th>材质</th>
+                                <th>透光度</th>
+                                <th>细度</th>
+                                <th>颗数</th>
+                                <th>评分</th>
+                                <th>等级</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="braceletList">
+                            <tr>
+                                <td colspan="9" class="loading">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>评分规则：透光度 × 50% + 细度 × 50%，颗数偏差每超2颗扣1分</p>
+            <p>等级标准：特级≥90 | 一级≥80 | 二级≥70 | 三级≥60 | 等外&lt;60</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
